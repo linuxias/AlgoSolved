@@ -1,7 +1,7 @@
 /*
 * https://www.acmicpc.net/problem/9093
 */ 
-
+#if 0
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -30,41 +30,41 @@ int main() {
 	}
 }
 
-#if 0 // C
+#elif 1 // C
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
+#include <string.h>
 
-char stack[21];
+char input[1001] = {0};
+
+void reverse(int start, int end) {
+	int tmp;
+	while (start < end) {
+		tmp = input[start];
+		input[start] = input[end];
+		input[end] = tmp;
+		start++; end--;
+	}
+}
 
 int main() {
 	int N;
-	int stack_idx = -1;
 	scanf("%d\n", &N);
 
-	for (int i = 0; i < N; i++) {
-		char c;
-		while ((c = getchar())) {
-			if (c == ' ') {
-				while (stack_idx >= 0) {
-					printf("%c", stack[stack_idx]);
-					stack_idx--;
-				}
-				printf(" ");
-			}
-			else if (c == '\n') {
-				while (stack_idx >= 0) {
-					printf("%c", stack[stack_idx]);
-					stack_idx--;
-				}
-				break;
-			}
-			else {
-				stack_idx++;
-				stack[stack_idx] = c;
+	while(N--) {
+		fgets(input, sizeof(input), stdin);
+
+		int start = 0;
+		for (int i = 0; i < strlen(input); i++) {
+			if (input[i] == ' ') {
+				reverse(start, i - 1);
+				start = i + 1;
 			}
 		}
-		printf("\n");
+
+		reverse(start, strlen(input) - 2);
+		printf("%s", input);
 	}
 
 	return 0;
