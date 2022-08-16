@@ -9,9 +9,8 @@
 
 using namespace std;
 
-stack<int> A;
-stack<int> res;
-int out[1000005];
+int A[1000005];
+stack<int> nge;
 int idx = 0;
 
 int main() {
@@ -19,41 +18,27 @@ int main() {
 	int N;
 	scanf("%d", &N);
 
-	while (N--) {
-		scanf("%d", &tmp);
-		A.push(tmp);
-	}
-	out[idx++] = -1;
-	res.push(A.top());
-	A.pop();
+	for (int i = 0; i < N; i++)
+		scanf("%d", &A[i]);
+	
+	for (int i = N - 1; i >= 0; i--) {
+		while (!nge.empty() && nge.top() <= A[i])
+			nge.pop();
 
-	while (!A.empty()) {
-		if (res.empty()) {
-			out[idx++] = -1;
-			res.push(A.top());
-			A.pop();
-			continue;
-		}
-
-		if (A.top() < res.top()) {
-			out[idx++] = res.top();
-			res.push(A.top());
-			A.pop();
+		int tmp = A[i];
+		if (nge.empty()) {
+			A[i] = - 1;
 		}
 		else {
-			if (res.empty() || A.empty())
-				break;
-			while (res.size() != 0 && res.top() <= A.top()) {
-				res.pop();
-			}
+			A[i] = nge.top();
 		}
+		nge.push(tmp);
 	}
 
-	for (int i = idx - 1; i > 0; i--) {
-		printf("%d ", out[i]);
-	}
+	for (int i = 0; i < N - 1; i++)
+		printf("%d ", A[i]);
 
-	printf("%d\n", out[0]);
+	printf("%d\n", A[N - 1]);
 
 	return 0;
 }
