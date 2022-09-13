@@ -11,7 +11,6 @@ using namespace std;
 
 int N;
 int input[10001];
-int pos[10001];
 
 bool compare(int a, int b) {
 	return b < a;
@@ -36,13 +35,14 @@ void find_pre_permutation() {
 
 	int cur_input = input[i];
 	int min_input = 0;
+	int min_idx;
 	for (int j = i + 1; j < N; j++) {
 		if (cur_input > input[j] && input[j] > min_input)
-			min_input = input[j];
+			min_idx = j;
 	}
 
-	int tmp = input[pos[min_input]];
-	input[pos[min_input]] = input[i];
+	int tmp = input[min_idx];
+	input[min_idx] = input[i];
 	input[i] = tmp;
 
 	sort(input + i + 1, input + N, compare);
@@ -52,7 +52,6 @@ int main() {
 	scanf("%d", &N);
 	for (int i = 0; i < N; i++) {
 		scanf("%d", &input[i]);
-		pos[input[i]] = i;
 	}
 
 	find_pre_permutation();
