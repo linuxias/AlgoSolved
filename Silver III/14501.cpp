@@ -1,8 +1,29 @@
 /*
 * https://www.acmicpc.net/problem/14501
 */
-
 #define _CRT_SECURE_NO_WARNINGS
+
+#if 0 
+#include <stdio.h>
+
+int N;
+int dp[25] = { 0, };
+
+int main() {
+	int day, pay;
+	scanf("%d", &N);
+
+	
+	for (int i = 0; i < N; i++) {
+		scanf("%d %d", &day, &pay);
+		dp[i + 1] = dp[i + 1] > dp[i] ? dp[i + 1] : dp[i];
+		dp[i + day] = dp[i + day] > dp[i] + pay ? dp[i + day] : dp[i] + pay;
+	}
+
+	printf("%d\n", dp[N]);
+}
+
+#endif
 
 #include <stdio.h>
 
